@@ -2,15 +2,15 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { BracketConfig } from "../interfaces";
 import Brackets from "./Brackets";
 
-const BracketContainer = () => {
-  var rows = [];
-  for (var i = 0; i < 200; i++) {
-    // note: we are adding a key prop here to allow react to uniquely identify each
-    // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
-    rows.push(<div />);
-  }
+type Props = {
+  data: BracketConfig[];
+};
+
+const BracketContainer = (props: Props) => {
+  const { data } = props;
   return (
     <div
       css={css`
@@ -21,27 +21,18 @@ const BracketContainer = () => {
         max-height: 100vh;
       `}
     >
-      <TransformWrapper>
-        <TransformComponent wrapperStyle={{ width: "100%", height: "100vh" }}>
+      <TransformWrapper maxScale={2} centerOnInit={true}>
+        <TransformComponent wrapperStyle={{ width: "100%", height: "80vh" }}>
           <div
             css={css`
-              height: 2000px;
-              width: 2000px;
               display: flex;
               flex-direction: row;
               flex-wrap: wrap;
               align-content: flex-start;
               background-color: green;
-
-              div {
-                height: 100px;
-                width: 100px;
-                background-color: blue;
-                margin: 5px;
-              }
             `}
           >
-            <Brackets />
+            <Brackets data={data} />
           </div>
         </TransformComponent>
       </TransformWrapper>
