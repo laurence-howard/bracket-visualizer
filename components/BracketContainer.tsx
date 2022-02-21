@@ -2,15 +2,19 @@
 /** @jsx jsx */
 import { css, jsx } from "@emotion/react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { BracketConfig } from "../interfaces";
+import * as R from "ramda";
+import { Config } from "../interfaces";
 import Brackets from "./Brackets";
+import { injectTeamsIntoMatches } from "./utils/teamsAndMatches";
 
 type Props = {
-  data: BracketConfig[];
+  data: Config;
 };
 
 const BracketContainer = (props: Props) => {
   const { data } = props;
+  const { teams, rounds } = data;
+  const roundsWithTeams = injectTeamsIntoMatches(teams, rounds);
   return (
     <div
       css={css`
@@ -21,7 +25,7 @@ const BracketContainer = (props: Props) => {
         max-height: 100vh;
       `}
     >
-      <TransformWrapper maxScale={2} centerOnInit={true}>
+      <TransformWrapper minScale={0.5} centerOnInit={true}>
         <TransformComponent wrapperStyle={{ width: "100%", height: "80vh" }}>
           <div
             css={css`
@@ -32,7 +36,7 @@ const BracketContainer = (props: Props) => {
               background-color: green;
             `}
           >
-            <Brackets data={data} />
+            <Brackets data={roundsWithTeams} />
           </div>
         </TransformComponent>
       </TransformWrapper>

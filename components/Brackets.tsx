@@ -2,10 +2,10 @@
 /** @jsx jsx */
 import React from "react";
 import { css, jsx } from "@emotion/react";
-import { Match, BracketConfig } from "../interfaces";
+import { Match, Round } from "../interfaces";
 import SingleMatch from "./SingleMatch";
 
-const generateBrackets = (data: BracketConfig[]) =>
+const generateBrackets = (data: Round[]) =>
   data.map(({ round, matches }) => (
     <div
       className="round-outer-container"
@@ -43,10 +43,11 @@ const generateBrackets = (data: BracketConfig[]) =>
     </div>
   ));
 type Props = {
-  data: BracketConfig[];
+  data: Round[];
 };
 const Brackets = (props: Props) => {
   const { data } = props;
+  console.log({ data });
   return (
     <div
       css={css`
