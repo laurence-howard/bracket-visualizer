@@ -19,10 +19,11 @@ const BracketContainer = (props: Props) => {
     <div
       css={css`
         overflow: auto;
-        border: 2px solid red;
+        border: 2px solid #e8e8e8;
         margin: 0 10px;
         max-width: 100%;
         max-height: 100vh;
+        border-radius: 2px;
       `}
     >
       <TransformWrapper minScale={0.5} centerOnInit={true}>
@@ -33,7 +34,6 @@ const BracketContainer = (props: Props) => {
               flex-direction: row;
               flex-wrap: wrap;
               align-content: flex-start;
-              background-color: green;
             `}
           >
             <Brackets data={roundsWithTeams} />

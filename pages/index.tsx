@@ -1,16 +1,26 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { css, jsx } from "@emotion/react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import BracketContainer from "../components/BracketContainer";
 import ToggleContainer from "../components/ToggleContainer";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Bracket Visualizer</title>
       </Head>
-      <main className={styles.main}>
+      <main
+        css={css`
+          min-height: 100vh;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        `}
+      >
         <h1>Bracket Visualizer</h1>
         <ToggleContainer />
       </main>

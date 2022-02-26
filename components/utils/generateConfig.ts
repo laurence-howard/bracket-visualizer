@@ -1,5 +1,5 @@
 import RD from "ramda-decimal";
-import { compose, ifElse, always, indexOf, assoc, update } from "ramda";
+import { compose, ifElse, always, indexOf, assoc, update, tap } from "ramda";
 import { v4 as uuidv4 } from "uuid";
 import { Team, Match } from "../../interfaces";
 
@@ -7,9 +7,11 @@ export const getNumberOfMatches = (current: number, total: number) =>
   compose(
     RD.toNumber,
     (x) => RD.toPower(x)(2),
-    RD.toNumber,
-    RD.subtract(total)
+    RD.subtract(RD.add(total, 1))
   )(current);
+
+export const getNumberOfRounds = (current: number, total: number) =>
+  compose(RD.toNumber, (x) => RD.toPower(x)(2), RD.subtract(total))(current);
 
 const getProgressionMatch = (match: number) =>
   compose(
@@ -24,7 +26,7 @@ export const generateMatches = (
   finalRound: number
 ): Match[] => {
   let matches = [];
-  for (let i = 1; i <= getNumberOfMatches(currentRound, finalRound); i++) {
+  for (let i = 1; i <= getNumberOfRounds(currentRound, finalRound); i++) {
     matches.push({
       team1: "",
       team2: "",
@@ -45,7 +47,9 @@ export const updateById = (
   newData: string,
   prop: string
 ) => {
-  const currentData = indexOf(index, currentArray);
+  console.log({ currentArray, index });
+  const currentData = currentArray[index];
+  console.log({ currentData });
   const newDataObj = assoc(prop, newData, currentData);
   const newArray = update(index, newDataObj, currentArray);
   return newArray;

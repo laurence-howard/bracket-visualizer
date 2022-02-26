@@ -10,7 +10,6 @@ const generateBrackets = (data: Round[]) =>
     <div
       className="round-outer-container"
       css={css`
-        background-color: yellow;
         min-width: 200px;
         margin-right: 40px;
         display: flex;

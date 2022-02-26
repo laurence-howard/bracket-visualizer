@@ -3,6 +3,7 @@
 import React from "react";
 import { css, jsx } from "@emotion/react";
 import Xarrow from "react-xarrows";
+import Image from "next/image";
 import { Match, Team } from "../interfaces";
 
 interface TeamProps {
@@ -11,13 +12,25 @@ interface TeamProps {
 }
 
 const TeamBlock = ({ team, winner = false }: TeamProps) => (
-  <p
+  <div
     css={css`
-      background-color: ${winner ? "green" : "none"};
+      position: relative;
+      display: flex;
+      align-items: center;
+      div:first-child {
+        position: absolute;
+        left: -30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     `}
   >
-    {team.name}
-  </p>
+    <div>
+      {winner && <Image src="/winner_trophy.svg" width={30} height={28} />}
+    </div>
+    <p>{team.name}</p>
+  </div>
 );
 
 const SingleMatch = (props: Match) => {
@@ -31,10 +44,11 @@ const SingleMatch = (props: Match) => {
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    background-color: grey;
+    background-color: #bcbcbc59;
     margin-bottom: 10px;
     min-width: 200px;
     padding: 10px;
+    border-radius: 10px;
     p {
       margin: 0;
       font-size: 20px;
@@ -49,6 +63,7 @@ const SingleMatch = (props: Match) => {
       </div>
       {progression !== "finish" && (
         <Xarrow
+          color="#1876d1"
           start={`${matchId}_container`}
           end={`${progression}_container`}
           path="grid"

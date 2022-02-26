@@ -2,6 +2,8 @@
 /** @jsx jsx */
 import React from "react";
 import { css, jsx } from "@emotion/react";
+import { TextField, MenuItem, Chip } from "@mui/material";
+import { compose, defaultTo, find, propEq, propOr, tap } from "ramda";
 import { Match, Team } from "../interfaces";
 
 interface BasicProps {
@@ -11,41 +13,45 @@ interface BasicProps {
 
 interface Props extends BasicProps {
   teams: Team[];
-}
-
-interface SingleInputProps extends BasicProps {
   name: string;
+  title: string;
 }
 
-const SingleInput = ({ name, single, updateMatch }: SingleInputProps) => (
-  <label>
-    {name}:
-    <input
-      type="text"
-      name={name}
-      value={single[name]}
-      onChange={(e) => {
-        updateMatch({ ...single, [name]: e.target.value });
-      }}
-    />
-  </label>
-);
+const findTeamFromId = (id: string, teams: Team[]) =>
+  compose(
+    propOr("unknown", "name"),
+    defaultTo({}),
+    find(propEq("id", id))
+  )(teams);
 
-const SingleDropdown = ({ name, single, updateMatch, teams }) => (
-  <label>
-    {name}:
-    <select
+const SingleDropdown = ({ title, name, single, updateMatch, teams }: Props) => (
+  <div
+    css={css`
+      padding: 10px;
+      margin: 4px 0;
+      text-align: left;
+    `}
+  >
+    <TextField
+      css={css`
+        width: 100%;
+      `}
+      label={title}
       name={name}
       value={single[name]}
+      select
       onChange={(e) => {
         updateMatch({ ...single, [name]: e.target.value });
       }}
     >
+      <MenuItem value="" disabled selected>
+        Select {title}
+      </MenuItem>
       {teams.map(({ name, id }) => (
-        <option value={id}>{name}</option>
+        <MenuItem value={id}>{name}</MenuItem>
       ))}
-    </select>
-  </label>
+    </TextField>
+  </div>
 );
 
 const MatchConfig = ({ single, teams, updateMatch }: Props) => {
@@ -54,40 +60,61 @@ const MatchConfig = ({ single, teams, updateMatch }: Props) => {
       css={css`
         border: 1px solid grey;
         margin: 5px 0;
+        padding: 10px;
+        label {
+          width: 100%;
+          display: block;
+        }
+        .MuiChip-root {
+          margin: 0 3px;
+        }
       `}
     >
+      <Chip label={`Match ID: ${single.matchId}`} />
+      <Chip label={`Match to Progress to: ${single.progression}`} />
       <SingleDropdown
+        title="Team 1"
         name="team1"
         single={single}
         teams={teams}
         updateMatch={updateMatch}
       />
-      <SingleInput name="team1" single={single} updateMatch={updateMatch} />
       <SingleDropdown
+        title="Team 2"
         name="team2"
         single={single}
         teams={teams}
         updateMatch={updateMatch}
       />
-      <SingleInput name="team2" single={single} updateMatch={updateMatch} />
-      <SingleInput name="matchId" single={single} updateMatch={updateMatch} />
-      <SingleInput
-        name="progression"
-        single={single}
-        updateMatch={updateMatch}
-      />
-      <label>
-        Winner:
-        <select
+      <div
+        css={css`
+          padding: 10px;
+          margin: 4px 0;
+          text-align: left;
+        `}
+      >
+        <TextField
+          select
+          label="Winner:"
           value={single.winner}
           onChange={(e) => {
             updateMatch({ ...single, winner: e.target.value });
           }}
+          css={css`
+            width: 100%;
+          `}
         >
-          <option value="team1">{single.team1}</option>
-          <option value="team2">{single.team2}</option>
-        </select>
-      </label>
+          <MenuItem value="" disabled selected>
+            Select Winner
+          </MenuItem>
+          <MenuItem value="team1">
+            {findTeamFromId(single.team1, teams)}
+          </MenuItem>
+          <MenuItem value="team2">
+            {findTeamFromId(single.team2, teams)}
+          </MenuItem>
+        </TextField>
+      </div>
     </div>
   );
 };

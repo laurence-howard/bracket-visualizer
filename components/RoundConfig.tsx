@@ -2,6 +2,13 @@
 /** @jsx jsx */
 import React, { useState, useEffect } from "react";
 import { css, jsx } from "@emotion/react";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  TextField,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { update } from "ramda";
 import { Match, Round, Team } from "../interfaces";
 import MatchConfig from "./MatchConfig";
@@ -30,46 +37,42 @@ const RoundConfig = (props: Props) => {
     <div
       css={css`
         padding: 10px;
+        width: 100%;
+        max-width: 500px;
       `}
     >
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          updateIndex(updatedRound);
-        }}
-        css={css`
-          display: flex;
-          flex-direction: column;
-          box-shadow: 0 0 5px 1px;
-          padding: 15px;
-          margin-bottom: 20px;
-          border-radius: 5px;
-          width: 300px;
-          input {
-            display: block;
-          }
-        `}
-      >
-        <label>
-          Round Name:
-          <input
-            type="text"
-            name="name"
-            value={updatedRound.round}
-            onChange={(e) =>
-              setUpdatedRound({ ...updatedRound, round: e.target.value })
-            }
-          />
-        </label>
-        {updatedRound.matches.map((single, index) => (
-          <MatchConfig
-            teams={teams}
-            single={single}
-            updateMatch={updateMatchConfig(index)}
-          />
-        ))}
-        <input type="submit" value="Submit" />
-      </form>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <p>Round {updatedRound.round}</p>
+        </AccordionSummary>
+        <AccordionDetails>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              updateIndex(updatedRound);
+            }}
+          >
+            <TextField
+              label="Round Name:"
+              variant="standard"
+              type="text"
+              name="name"
+              value={updatedRound.round}
+              onChange={(e) =>
+                setUpdatedRound({ ...updatedRound, round: e.target.value })
+              }
+            />
+
+            {updatedRound.matches.map((single, index) => (
+              <MatchConfig
+                teams={teams}
+                single={single}
+                updateMatch={updateMatchConfig(index)}
+              />
+            ))}
+          </form>
+        </AccordionDetails>
+      </Accordion>
     </div>
   );
 };

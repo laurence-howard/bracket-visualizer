@@ -1,6 +1,6 @@
 export type Match = {
-  team1: string | Team;
-  team2: string | Team;
+  team1: Team;
+  team2: Team;
   matchId: string;
   progression: string;
   winner: "team1" | "team2" | "";

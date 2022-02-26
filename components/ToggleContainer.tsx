@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import React, { useState } from "react";
 import { css, jsx } from "@emotion/react";
+import { Button } from "@mui/material";
 import BracketContainer from "./BracketContainer";
 import ConfigContainer from "./ConfigContainer";
 import GenerateContainer from "./GenerateContainer";
@@ -113,20 +114,38 @@ const ToggleContainer = () => {
   const [currentPanel, setCurrentPanel] = useState("config");
   const [currentData, setCurrentData] = useState(data);
   return (
-    <>
-      <div>
-        <button onClick={() => setCurrentPanel("config")}>Config</button>
-        <button onClick={() => setCurrentPanel("bracket")}>Bracket</button>
-        <button onClick={() => setCurrentPanel("generate")}>Generate</button>
+    <div
+      css={css`
+        width: 100%;
+        padding: 0 10px;
+        .MuiButton-contained {
+          margin: 0 5px;
+        }
+      `}
+    >
+      <Button variant="contained" onClick={() => setCurrentPanel("config")}>
+        Config
+      </Button>
+      <Button variant="contained" onClick={() => setCurrentPanel("bracket")}>
+        Bracket
+      </Button>
+      <Button variant="contained" onClick={() => setCurrentPanel("generate")}>
+        Generate
+      </Button>
+      <div
+        css={css`
+          margin-top: 20px;
+        `}
+      >
+        {currentPanel === "config" && (
+          <ConfigContainer data={currentData} updateData={setCurrentData} />
+        )}
+        {currentPanel === "bracket" && <BracketContainer data={currentData} />}
+        {currentPanel === "generate" && (
+          <GenerateContainer updateData={setCurrentData} />
+        )}
       </div>
-      {currentPanel === "config" && (
-        <ConfigContainer data={currentData} updateData={setCurrentData} />
-      )}
-      {currentPanel === "bracket" && <BracketContainer data={currentData} />}
-      {currentPanel === "generate" && (
-        <GenerateContainer updateData={setCurrentData} />
-      )}
-    </>
+    </div>
   );
 };
 
