@@ -43,7 +43,7 @@ const RoundConfig = (props: Props) => {
     >
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <p>Round {updatedRound.round}</p>
+          <p>{updatedRound.round}</p>
         </AccordionSummary>
         <AccordionDetails>
           <form
@@ -53,6 +53,9 @@ const RoundConfig = (props: Props) => {
             }}
           >
             <TextField
+              css={css`
+                margin-bottom: 8px;
+              `}
               label="Round Name:"
               variant="standard"
               type="text"

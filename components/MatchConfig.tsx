@@ -3,7 +3,7 @@
 import React from "react";
 import { css, jsx } from "@emotion/react";
 import { TextField, MenuItem, Chip } from "@mui/material";
-import { compose, defaultTo, find, propEq, propOr, tap } from "ramda";
+import { compose, defaultTo, find, propEq, propOr } from "ramda";
 import { Match, Team } from "../interfaces";
 
 interface BasicProps {
@@ -66,7 +66,7 @@ const MatchConfig = ({ single, teams, updateMatch }: Props) => {
           display: block;
         }
         .MuiChip-root {
-          margin: 0 3px;
+          margin: 3px;
         }
       `}
     >

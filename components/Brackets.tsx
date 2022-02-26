@@ -24,7 +24,7 @@ const generateBrackets = (data: Round[]) =>
           text-align: center;
         `}
       >
-        Round {round}
+        {round}
       </p>
       <div
         css={css`
@@ -46,7 +46,6 @@ type Props = {
 };
 const Brackets = (props: Props) => {
   const { data } = props;
-  console.log({ data });
   return (
     <div
       css={css`

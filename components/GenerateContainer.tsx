@@ -23,7 +23,6 @@ const GenerateContainer = (props: Props) => {
   const [newRounds, setNewRounds] = useState([]);
   const [numberOfRounds, setNumberOfRounds] = useState(0);
   const [newTeams, setNewTeams] = useState([]);
-  console.log({ newTeams });
   useEffect(() => {
     if (Object.keys(newConfig).length !== 0 && newConfig !== {}) {
       updateData(newConfig);
@@ -69,11 +68,10 @@ const GenerateContainer = (props: Props) => {
               variant="contained"
               onClick={(e) => {
                 e.preventDefault();
-                console.log({ numberOfRounds });
                 let newRoundsLocal: Round[] = [];
                 for (let i: number = 1; i <= RD.toNumber(numberOfRounds); i++) {
                   newRoundsLocal.push({
-                    round: toString(i),
+                    round: `Round ${toString(i)}`,
                     matches: generateMatches(i, numberOfRounds),
                   });
                 }
@@ -122,7 +120,6 @@ const GenerateContainer = (props: Props) => {
                       e.target.value,
                       "name"
                     );
-                    console.log({ newTeams, updatedTeamsArray });
                     setNewTeams(updatedTeamsArray);
                   }}
                 />

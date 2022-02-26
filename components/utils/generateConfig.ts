@@ -1,5 +1,14 @@
 import RD from "ramda-decimal";
-import { compose, ifElse, always, indexOf, assoc, update, tap } from "ramda";
+import {
+  compose,
+  ifElse,
+  always,
+  indexOf,
+  assoc,
+  update,
+  tap,
+  Placeholder,
+} from "ramda";
 import { v4 as uuidv4 } from "uuid";
 import { Team, Match } from "../../interfaces";
 
@@ -46,10 +55,8 @@ export const updateById = (
   index: number,
   newData: string,
   prop: string
-) => {
-  console.log({ currentArray, index });
+): Team[] => {
   const currentData = currentArray[index];
-  console.log({ currentData });
   const newDataObj = assoc(prop, newData, currentData);
   const newArray = update(index, newDataObj, currentArray);
   return newArray;
