@@ -25,7 +25,7 @@ const GenerateContainer = (props: Props) => {
   const [newTeams, setNewTeams] = useState([]);
   console.log({ newTeams });
   useEffect(() => {
-    if (Object.keys(newConfig).length !== 0) {
+    if (Object.keys(newConfig).length !== 0 && newConfig !== {}) {
       updateData(newConfig);
     }
   }, [newConfig]);

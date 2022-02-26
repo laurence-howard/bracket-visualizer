@@ -11,7 +11,7 @@ import {
   propOr,
   mergeDeepLeft,
 } from "ramda";
-import { Team, Round } from "../../interfaces";
+import { Team, Round, Match } from "../../interfaces";
 
 const getTeams = (propName: string, teams: Team[]) =>
   compose(
@@ -20,10 +20,13 @@ const getTeams = (propName: string, teams: Team[]) =>
     prop(propName)
   );
 
-export const injectTeamsIntoMatches = (teams: Team[], rounds: Round[]) =>
-  map(
+export const injectTeamsIntoMatches = (
+  teams: Team[],
+  rounds: Round[]
+): Round[] =>
+  map<Round, Round>(
     applySpec({
-      round: prop("round"),
+      round: prop("round") as (src: Round) => string,
       matches: compose(
         map(
           compose(
